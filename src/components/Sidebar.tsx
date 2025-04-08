@@ -1,4 +1,4 @@
-import { SidebarClose, SidebarOpen } from "lucide-react";
+import { LogOut, SidebarClose, SidebarOpen } from "lucide-react";
 import { useState } from "react";
 import SidebarLink from "./SidebarLink";
 import { Button } from "./ui/button";
@@ -42,6 +42,19 @@ function Sidebar() {
           <ThemeToggle />
           <ul className="space-y-1 pt-4 sm:pt-4">
             <SidebarLink />
+            <li className="pt-5 inline-flex">
+              <Button
+                variant="outline"
+                className="w-full justify-start text-left cursor-pointer"
+                onClick={() => {
+                  localStorage.removeItem("logado");
+                  window.location.href = "/login";
+                }}
+              >
+                <LogOut />
+                Logout
+              </Button>
+            </li>
           </ul>
         </div>
       </div>

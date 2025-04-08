@@ -1,130 +1,159 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Heading from "./Heading";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { cadastrarUsuario } from "@/services/api";
 
-interface FormCadastroProps {
-  setIsCadastro: React.Dispatch<React.SetStateAction<boolean>>;
-}
+function FormCadastro() {
+  const navigate = useNavigate();
 
-function FormCadastro({ setIsCadastro }: FormCadastroProps) {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    mobilePhone: "",
+    cpfCnpj: "",
+    birthDate: "",
+    companyType: "",
+    phone: "",
+    postalCode: "",
+    address: "",
+    addressNumber: "",
+    complement: "",
+    province: "",
+    senha: ""
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await cadastrarUsuario(form);
+    navigate("/"); // volta pra tela de login
+  };
+
   return (
-    <form action="" className="space-y-4 max-w-2xl mx-auto px-10 py-20 lg:py-10 lg:px-4 lg:col-start-2 lg:col-end-4">
-      <Heading as="h1" className="pb-2">Cadastro</Heading>
-      <div>
-        <input
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 max-w-2xl mx-auto px-10 py-20 lg:py-10 lg:px-4 lg:col-start-2 lg:col-end-4"
+    >
+      <Heading as="h1" className="pb-2">
+        Cadastro
+      </Heading>
+
+      <Input
+        type="text"
+        name="name"
+        placeholder="Nome completo"
+        value={form.name}
+        onChange={handleChange}
+      />
+
+      <div className="grid grid-cols-2 gap-4">
+        <Input
+          type="email"
+          name="email"
+          placeholder="E-mail"
+          value={form.email}
+          onChange={handleChange}
+        />
+        <Input
           type="text"
-          name="name"
-          className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-          placeholder="Nome completo"
+          name="mobilePhone"
+          placeholder="Celular"
+          value={form.mobilePhone}
+          onChange={handleChange}
         />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <input
-            type="email"
-            name="email"
-            className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-            placeholder="E-mail"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="mobilePhone"
-            className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-            placeholder="Celular"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <input
-            type="text"
-            name="cpfCnpj"
-            className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-            placeholder="CPF ou CNPJ"
-          />
-        </div>
-        <div>
-          <input
-            type="date"
-            name="birthDate"
-            className="border border-zinc-500 rounded text-zinc-400 px-3 py-2 focus:outline-1 outline-zinc-500 w-full"
-          />
-        </div>
-      </div>
-
-      <div>
-        <input
+        <Input
           type="text"
-          name="companyType"
-          className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-          placeholder="Tipo de empresa"
+          name="cpfCnpj"
+          placeholder="CPF ou CNPJ"
+          value={form.cpfCnpj}
+          onChange={handleChange}
+        />
+        <Input
+          type="date"
+          name="birthDate"
+          value={form.birthDate}
+          onChange={handleChange}
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <input
-            type="text"
-            name="phone"
-            className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-            placeholder="Telefone"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="postalCode"
-            className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-            placeholder="CEP"
-          />
-        </div>
-      </div>
+      <Input
+        type="text"
+        name="companyType"
+        placeholder="Tipo de empresa"
+        value={form.companyType}
+        onChange={handleChange}
+      />
 
-      <div>
-        <input
+      <div className="grid grid-cols-2 gap-4">
+        <Input
           type="text"
-          name="address"
-          className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-          placeholder="Endereço"
+          name="phone"
+          placeholder="Telefone"
+          value={form.phone}
+          onChange={handleChange}
+        />
+        <Input
+          type="text"
+          name="postalCode"
+          placeholder="CEP"
+          value={form.postalCode}
+          onChange={handleChange}
         />
       </div>
+
+      <Input
+        type="text"
+        name="address"
+        placeholder="Endereço"
+        value={form.address}
+        onChange={handleChange}
+      />
 
       <div className="grid grid-cols-3 gap-4">
-        <div>
-          <input
-            type="text"
-            name="addressNumber"
-            className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-            placeholder="Número"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="complement"
-            className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-            placeholder="Complemento"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="province"
-            className="border border-zinc-500 rounded text-zinc-200 px-3 py-2 focus:outline-1 outline-zinc-500 w-full placeholder:text-zinc-400"
-            placeholder="Bairro"
-          />
-        </div>
+        <Input
+          type="text"
+          name="addressNumber"
+          placeholder="Número"
+          value={form.addressNumber}
+          onChange={handleChange}
+        />
+        <Input
+          type="text"
+          name="complement"
+          placeholder="Complemento"
+          value={form.complement}
+          onChange={handleChange}
+        />
+        <Input
+          type="text"
+          name="province"
+          placeholder="Bairro"
+          value={form.province}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <Input
+          type="password"
+          name="senha"
+          placeholder="Senha"
+          value={form.senha}
+          onChange={handleChange}
+        />
       </div>
 
       <div className="flex items-center gap-4 pt-4">
-        <Button>
-          Cadastrar
-        </Button>
-        <Button variant={"link"} onClick={() => setIsCadastro(false)}>
-          Já tenho conta
+        <Button type="submit">Cadastrar</Button>
+        <Button variant="link" asChild>
+          <Link to="/">Já tenho conta</Link>
         </Button>
       </div>
     </form>

@@ -3,8 +3,17 @@ import ModalGerarCobranca from "@/components/ModalGerarCobranca";
 import { BanknoteArrowDown, BanknoteArrowUp, User } from "lucide-react";
 
 function Cobrancas() {
-  const repeticoes = Array.from({ length: 3 });
-  const repeticoesPagantes = Array.from({ length: 9 });
+
+  const clientesPendentes = [
+    { id: 1, nome: "Fernando Torres", cpf: "129.674.321-58", valor: 1400 },
+    { id: 2, nome: "Carla Silva", cpf: "983.234.129-80", valor: 980 },
+    { id: 3, nome: "Paulo Souza", cpf: "143.854.651-00", valor: 2500 },
+  ];
+
+  const clientesQuePagaram = [
+    { id: 1, nome: "Igor Patrick", cpf: "129.674.321-58", valor: 2200 },
+    { id: 2, nome: "Luciana Kormann", cpf: "983.234.129-80", valor: 960 },
+  ];
 
   return (
     <>
@@ -42,9 +51,9 @@ function Cobrancas() {
         </div>
         <Heading as="h2" className="mt-10 mb-1.5">Clientes que faltam pagar</Heading>
         <ul className="divide-y divide-zinc-200 dark:divide-zinc-500 border rounded border-zinc-200 dark:border-zinc-500">
-          {repeticoes.map((_, index) => (
+        {clientesPendentes.map((cliente) => (
             <li
-              key={index}
+              key={cliente.id}
               className="p-2.5 flex items-center justify-between flex-wrap gap-2"
             >
               <div className="flex items-center gap-3">
@@ -53,17 +62,13 @@ function Cobrancas() {
                   className="stroke-zinc-400 dark:stroke-zinc-400"
                 />
                 <div>
-                  <Heading as="h3">Fernando Torres</Heading>
-                  <span className="block text-xs sm:text-sm text-zinc-700 dark:text-zinc-400">
-                    129.674.321-58
-                  </span>
+                  <Heading as="h3">{cliente.nome}</Heading>
+                  <span className="block text-xs sm:text-sm text-zinc-700 dark:text-zinc-400">{cliente.cpf}</span>
                 </div>
               </div>
               <div className="flex items-center gap-1">
-                <span className="text-xs text-zinc-700 dark:text-zinc-200 pr-4">
-                  R$ 1.400,00
-                </span>
-                <ModalGerarCobranca />
+                <span className="text-xs text-zinc-700 dark:text-zinc-200 pr-4">R$ {cliente.valor}</span>
+                <ModalGerarCobranca clienteId={cliente.id} />
               </div>
             </li>
           ))}
@@ -71,9 +76,9 @@ function Cobrancas() {
 
         <Heading as="h2" className="mt-10 mb-1.5">Clientes que pagaram</Heading>
         <ul className="divide-y divide-zinc-200 dark:divide-zinc-500 border rounded border-zinc-200 dark:border-zinc-500">
-          {repeticoesPagantes.map((_, index) => (
+          {clientesQuePagaram.map((cliente) => (
             <li
-              key={index}
+              key={cliente.id}
               className="p-2.5 flex items-center justify-between flex-wrap gap-2"
             >
               <div className="flex items-center gap-3">
@@ -82,16 +87,12 @@ function Cobrancas() {
                   className="stroke-zinc-400 dark:stroke-zinc-400"
                 />
                 <div>
-                  <Heading as="h3">Fernando Torres</Heading>
-                  <span className="block text-xs sm:text-sm text-zinc-700 dark:text-zinc-400">
-                    129.674.321-58
-                  </span>
+                  <Heading as="h3">{cliente.nome}</Heading>
+                  <span className="block text-xs sm:text-sm text-zinc-700 dark:text-zinc-400">{cliente.cpf}</span>
                 </div>
               </div>
               <div className="flex items-center gap-1">
-                <span className="text-xs text-emerald-600 dark:text-emerald-400 pr-4">
-                  R$ 1.400,00
-                </span>
+                <span className="text-xs text-emerald-600 dark:text-emerald-400 pr-4">R$ {cliente.valor}</span>
               </div>
             </li>
           ))}

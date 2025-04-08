@@ -8,11 +8,29 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import {  Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
+import { useState } from "react";
+import { criarCobranca } from "@/services/api"; // função que envia para o backend
 
-function ModalGerarCobranca() {
+interface ModalGerarCobrancaProps {
+  clienteId: number;
+  onCobrancaGerada?: () => void;
+}
+
+function ModalGerarCobranca({
+  clienteId,
+  onCobrancaGerada,
+}: ModalGerarCobrancaProps) {
+  const [metodoEnvio, setMetodoEnvio] = useState("email");
+
+  const handleEnviar = async () => {
+    await criarCobranca({ clienteId, metodoEnvio });
+    alert(`Cobrança gerada e notificada via ${metodoEnvio}`);
+    onCobrancaGerada?.();
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -22,27 +40,25 @@ function ModalGerarCobranca() {
         <DialogHeader>
           <DialogTitle>Gerar cobrança</DialogTitle>
           <DialogDescription>
-            Você consegue gerar a cobranã via E-mail ou WhatsApp. Escolha a melhor opção:
+            Escolha como deseja notificar o cliente:
           </DialogDescription>
         </DialogHeader>
-        <RadioGroup defaultValue="option-one">
+        <RadioGroup value={metodoEnvio} onValueChange={setMetodoEnvio}>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="option-one" id="option-one" />
-            <Label htmlFor="option-one">E-mail</Label>
+            <RadioGroupItem value="email" id="email" />
+            <Label htmlFor="email">E-mail</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="option-two" id="option-two" />
-            <Label htmlFor="option-two">WhatsApp</Label>
+            <RadioGroupItem value="whatsapp" id="whatsapp" />
+            <Label htmlFor="whatsapp">WhatsApp</Label>
           </div>
         </RadioGroup>
 
         <DialogFooter>
-          <div className="text-center">
-            <Button variant={"default"} className="cursor-pointer">
-              Enviar
-              <Send className="stroke-zinc-50 dark:stroke-zinc-800" />
-            </Button>
-          </div>
+          <Button variant={"default"} onClick={handleEnviar}>
+            Enviar
+            <Send className="stroke-zinc-50 dark:stroke-zinc-800 ml-1" />
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
