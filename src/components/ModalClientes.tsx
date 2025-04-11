@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Plus, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { Input } from "./ui/input";
 import { useEffect, useState } from "react";
 import { criarCliente, editarCliente } from "@/services/api";

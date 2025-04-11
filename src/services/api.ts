@@ -54,12 +54,35 @@ export async function deletarCliente(id: number) {
   return res.json();
 }
 
-export async function criarCobranca({ clienteId, metodoEnvio }: { clienteId: number, metodoEnvio: string }) {
-  const res = await fetch("http://localhost:3000/cobrancas", {
+export async function listarCobrancas() {
+  const res = await fetch(`${API_URL}/cobrancas`);
+  if (!res.ok) throw new Error("Erro ao buscar cobranças");
+  return res.json();
+}
+
+
+export async function criarCobranca({
+  clienteId,
+  valor,
+  dataVencimento,
+  metodoEnvio = "simulado",
+}: {
+  clienteId: number;
+  valor: number;
+  dataVencimento: string;
+  metodoEnvio?: string;
+}) {
+  const res = await fetch(`${API_URL}/cobrancas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ clienteId, metodoEnvio }),
+    body: JSON.stringify({
+      clienteId,
+      valor,
+      dataVencimento,
+      metodoEnvio,
+    }),
   });
+
   if (!res.ok) throw new Error("Erro ao criar cobrança");
   return res.json();
 }
