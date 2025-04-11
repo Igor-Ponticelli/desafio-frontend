@@ -21,7 +21,10 @@ function FormCadastro() {
     addressNumber: "",
     complement: "",
     province: "",
-    senha: ""
+    city: "",
+    state: "",
+    incomeValue: "",
+    senha: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,6 +140,31 @@ function FormCadastro() {
           name="province"
           placeholder="Bairro"
           value={form.province}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <Input
+          type="text"
+          name="city"
+          placeholder="Cidade"
+          value={form.city}
+          onChange={handleChange}
+        />
+        <Input
+          type="text"
+          name="state"
+          placeholder="Estado (UF)"
+          value={form.state}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <Input
+          type="number"
+          name="incomeValue"
+          placeholder="Renda mensal (ex: 3000)"
+          value={form.incomeValue}
           onChange={handleChange}
         />
       </div>
